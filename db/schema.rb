@@ -10,7 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_05_001002) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_12_011543) do
+  create_table "todos", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.boolean "completed"
+    t.datetime "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_todos_on_user_id"
+  end
+
+  create_table "user_addresses", force: :cascade do |t|
+    t.string "street"
+    t.integer "number"
+    t.string "city"
+    t.string "state"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_addresses_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -19,4 +41,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_05_001002) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "todos", "users"
+  add_foreign_key "user_addresses", "users"
 end

@@ -75,4 +75,7 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
   gem 'shoulda-matchers', '~> 5.0'
+  gem 'webmock'
+  gem 'database_cleaner-active_record'
+  gem 'vcr'
 end
