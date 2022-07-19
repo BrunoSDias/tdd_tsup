@@ -21,7 +21,7 @@ class UserAddressesController < ApplicationController
 
   # POST /user_addresses or /user_addresses.json
   def create
-    @user_address = UserAddress.new(user_address_params)
+    @user_address = UserAddress.new(user_address_params.merge(user_id: @current_user.id))
 
     respond_to do |format|
       if @user_address.save
@@ -37,7 +37,7 @@ class UserAddressesController < ApplicationController
   # PATCH/PUT /user_addresses/1 or /user_addresses/1.json
   def update
     respond_to do |format|
-      if @user_address.update(user_address_params)
+      if @user_address.update(user_address_params.merge(user_id: @current_user.id))
         format.html { redirect_to user_address_url(@user_address), notice: "User address was successfully updated." }
         format.json { render :show, status: :ok, location: @user_address }
       else
@@ -65,6 +65,6 @@ class UserAddressesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_address_params
-      params.require(:user_address).permit(:street, :number, :city, :state, :user_id)
+      params.require(:user_address).permit(:street, :number, :city, :state)
     end
 end

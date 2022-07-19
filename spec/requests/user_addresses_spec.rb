@@ -13,14 +13,6 @@ RSpec.describe "/user_addresses", type: :request do
     attributes_for(:user_address, street: nil)
   }
 
-  describe "GET /index" do
-    it "renders a successful response" do
-      UserAddress.create! valid_attributes
-      get user_addresses_url
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET /show" do
     it "renders a successful response" do
       user_address = UserAddress.create! valid_attributes

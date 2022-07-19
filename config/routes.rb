@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  resources :todos
-  resources :user_addresses
+  resources :todos, except: :index
+  put '/complete_todo/:id', to: 'todos#complete', as: :complete_todo
+  resources :user_addresses, except: :index
+
   get 'home/index'
   get 'sessions/signin'
   get 'sessions/signup'
@@ -8,8 +10,4 @@ Rails.application.routes.draw do
   post 'sessions/create'
 
   post 'sessions/signout'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
 end

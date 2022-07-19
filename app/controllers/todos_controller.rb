@@ -1,5 +1,5 @@
 class TodosController < ApplicationController
-  before_action :set_todo, only: %i[ show edit update destroy ]
+  before_action :set_todo, only: %i[ show edit update destroy complete ]
 
   # GET /todos or /todos.json
   def index
@@ -19,13 +19,19 @@ class TodosController < ApplicationController
   def edit
   end
 
+  def complete
+    @todo.update(completed: !@todo.completed)
+
+    redirect_to home_index_path
+  end
+
   # POST /todos or /todos.json
   def create
     @todo = Todo.new(todo_params.merge(user_id: @current_user.id))
 
     respond_to do |format|
       if @todo.save
-        format.html { redirect_to todo_url(@todo), notice: "Todo was successfully created." }
+        format.html { redirect_to home_index_path, notice: "Todo was successfully created." }
         format.json { render :show, status: :created, location: @todo }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -37,8 +43,8 @@ class TodosController < ApplicationController
   # PATCH/PUT /todos/1 or /todos/1.json
   def update
     respond_to do |format|
-      if @todo.update(todo_params)
-        format.html { redirect_to todo_url(@todo), notice: "Todo was successfully updated." }
+      if @todo.update(todo_params.merge(user_id: @current_user.id))
+        format.html { redirect_to home_index_path, notice: "Todo was successfully updated." }
         format.json { render :show, status: :ok, location: @todo }
       else
         format.html { render :edit, status: :unprocessable_entity }

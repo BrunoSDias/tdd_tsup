@@ -1,1 +1,46 @@
+<div class="navbar">
+  <div class="dropdown">
+    <button class="dropbtn">Perfil
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content" style="display: none;">
+      <%= link_to "Endereço", current_user.user_address ? edit_user_address_path(current_user.user_address.id) : new_user_address_path %>
+    </div>
+  </div>
+</div>
+
 <h1>Welcome <%= current_user.name %></h1>
+
+<p style="color: green"><%= notice %></p>
+
+<h1>Todos</h1>
+
+<div id="todos">
+  <% @todos.each do |todo| %>
+    <div style="padding: 15px; <%= todo.completed ? "background-color: #9aff9a".html_safe : "background-color: #ffb5b5".html_safe %>">
+      <%= render todo %>
+      <% if todo.completed %>
+        <%= button_to "Descompletar tarefa", complete_todo_path(todo.id), method: :put %>
+      <% else %>
+        <%= button_to "Completar tarefa", complete_todo_path(todo.id), method: :put %>
+      <% end %>
+      <p>
+        <%= link_to "Show this todo", todo %>
+      </p>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to "New todo", new_todo_path %>
+
+
+<%= link_to "Nova tarefa", new_todo_path %>
+
+
+<script>
+  document.addEventListener('turbo:load', function() {
+    document.querySelector('.dropbtn').addEventListener('click', function() {
+      document.querySelector('.dropdown-content').style = 'display: block;'
+    })
+  })
+</script>

@@ -12,14 +12,6 @@ RSpec.describe "/todos", type: :request do
     attributes_for(:todo, title: nil)
   }
 
-  describe "GET /index" do
-    it "renders a successful response" do
-      Todo.create! valid_attributes
-      get todos_url
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET /show" do
     it "renders a successful response" do
       todo = Todo.create! valid_attributes
@@ -53,7 +45,7 @@ RSpec.describe "/todos", type: :request do
 
       it "redirects to the created todo" do
         post todos_url, params: { todo: valid_attributes }
-        expect(response).to redirect_to(todo_url(Todo.last))
+        expect(response).to redirect_to(home_index_path)
       end
     end
 
@@ -85,14 +77,14 @@ RSpec.describe "/todos", type: :request do
         todo = Todo.create! valid_attributes
         patch todo_url(todo), params: { todo: new_attributes }
         todo.reload
-        expect(response).to redirect_to(todo_url(todo))
+        expect(response).to redirect_to(home_index_path)
       end
 
       it "redirects to the todo" do
         todo = Todo.create! valid_attributes
         patch todo_url(todo), params: { todo: new_attributes }
         todo.reload
-        expect(response).to redirect_to(todo_url(todo))
+        expect(response).to redirect_to(home_index_path)
       end
     end
 
